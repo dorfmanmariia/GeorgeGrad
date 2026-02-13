@@ -1,63 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8" />
-  <title>Admissions Results</title>
+  <title>Grad Results - Economics</title>
 
   <style>
     body {
       font-family: Arial, Helvetica, sans-serif;
-      background: #ffffff;
-      margin: 40px;
+      background: #fff;
+      margin: 30px;
       color: #222;
+      font-size: 13px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
     }
 
     h1 {
-      font-size: 22px;
-      margin-bottom: 20px;
+      font-size: 20px;
+      margin-bottom: 6px;
       font-weight: 600;
     }
 
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      max-width: 900px;
+    .subtitle {
+      color: #666;
+      font-size: 12px;
+      margin-bottom: 18px;
     }
 
-    th, td {
-      border: 1px solid #ddd;
-      padding: 10px 12px;
-      text-align: left;
-      font-size: 14px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid #dcdcdc;
     }
 
     th {
-      background-color: #f5f5f5;
+      background: #efefef;
+      border-bottom: 1px solid #dcdcdc;
+      text-align: left;
+      padding: 8px;
       font-weight: bold;
     }
 
+    td {
+      padding: 7px 8px;
+      border-bottom: 1px solid #eee;
+    }
+
     tr:nth-child(even) {
-      background-color: #fafafa;
+      background: #fafafa;
     }
 
     .decision {
+      color: #1a7f37;
       font-weight: 500;
-      color: #2a7a2a;
     }
 
-    .subtle {
-      color: #888;
+    .tag {
+      background: #e6f4ea;
+      padding: 2px 6px;
+      border-radius: 4px;
       font-size: 12px;
-      margin-bottom: 15px;
     }
   </style>
 </head>
 
 <body>
-  <h1>Economics PhD Results (George Marinichev)</h1>
-  <div class="subtle">Results are crowd-reported. Data may be overly positive.</div>
+<div class="container">
 
-  <table id="resultsTable">
+  <h1>Economics PhD Admissions Results</h1>
+  <div class="subtitle">
+    1 result found for "George Marinichev"
+  </div>
+
+  <table>
     <thead>
       <tr>
         <th>Name</th>
@@ -65,62 +83,60 @@
         <th>Decision</th>
       </tr>
     </thead>
-    <tbody></tbody>
+    <tbody id="tableBody"></tbody>
   </table>
 
-  <script>
-    const name = "George Marinichev";
+</div>
 
-    // 👉 сюда вписываешь комплименты
-    const decisions = [
-      "You are already overqualified for the world",
-      "Top 0.1% kindness score",
-      "Strong letters from literally everyone",
-      "Automatic admit — no review needed",
-      "Department feels lucky to have you",
-      "Too good for our funding cap",
-      "Admitted with universal love fellowship",
-      "Peer institutions intimidated",
-      "Outstanding human capital",
-      "Lifetime rolling admission to happiness"
-    ];
+<script>
+const name = "George Marinichev";
 
-    // сколько строк показывать максимум
-    const maxRows = 30;
+const decisions = [
+  "You are already overqualified for the world",
+  "Admitted with full funding (love fellowship)",
+  "Top 0.1% human capital",
+  "Strong letters from literally everyone",
+  "Automatic admit — no review needed",
+  "Department feels lucky to have you",
+  "Peer institutions intimidated",
+  "Outstanding research + kindness combo",
+  "Offer extended permanently",
+  "Rolling admission to happiness"
+];
 
-    function formatDate(date) {
-      return date.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-      });
-    }
+const startDate = new Date("2026-02-13");
+const today = new Date();
 
-    const tableBody = document.querySelector("#resultsTable tbody");
+const diffDays = Math.floor((today - startDate) / (1000*60*60*24)) + 1;
+const rows = Math.min(diffDays, 60);
 
-    const today = new Date();
-    const startDate = new Date("2026-02-13"); // можно поменять
+const tableBody = document.getElementById("tableBody");
 
-    const diffDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24)) + 1;
+function formatDate(d) {
+  return d.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric"
+  });
+}
 
-    const rowsToShow = Math.min(diffDays, maxRows);
+for (let i = 0; i < rows; i++) {
+  const date = new Date(startDate);
+  date.setDate(startDate.getDate() + i);
 
-    for (let i = 0; i < rowsToShow; i++) {
-      const date = new Date(startDate);
-      date.setDate(startDate.getDate() + i);
+  const decision = decisions[i % decisions.length];
 
-      const decision = decisions[i % decisions.length];
+  const row = document.createElement("tr");
 
-      const tr = document.createElement("tr");
+  row.innerHTML = `
+    <td>${name}</td>
+    <td>${formatDate(date)}</td>
+    <td class="decision">${decision}</td>
+  `;
 
-      tr.innerHTML = `
-        <td>${name}</td>
-        <td>${formatDate(date)}</td>
-        <td class="decision">${decision}</td>
-      `;
+  tableBody.prepend(row);
+}
+</script>
 
-      tableBody.prepend(tr); // новые сверху, как на GradCafe
-    }
-  </script>
 </body>
 </html>

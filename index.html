@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admissions Results</title>
+
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #ffffff;
+      margin: 40px;
+      color: #222;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: #f5f5f5;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+
+    .decision {
+      font-weight: 500;
+      color: #2a7a2a;
+    }
+
+    .subtle {
+      color: #888;
+      font-size: 12px;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Economics PhD Results (George Marinichev)</h1>
+  <div class="subtle">Results are crowd-reported. Data may be overly positive.</div>
+
+  <table id="resultsTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Added On</th>
+        <th>Decision</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const name = "George Marinichev";
+
+    // 👉 сюда вписываешь комплименты
+    const decisions = [
+      "You are already overqualified for the world",
+      "Top 0.1% kindness score",
+      "Strong letters from literally everyone",
+      "Automatic admit — no review needed",
+      "Department feels lucky to have you",
+      "Too good for our funding cap",
+      "Admitted with universal love fellowship",
+      "Peer institutions intimidated",
+      "Outstanding human capital",
+      "Lifetime rolling admission to happiness"
+    ];
+
+    // сколько строк показывать максимум
+    const maxRows = 30;
+
+    function formatDate(date) {
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+    }
+
+    const tableBody = document.querySelector("#resultsTable tbody");
+
+    const today = new Date();
+    const startDate = new Date("2026-02-13"); // можно поменять
+
+    const diffDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24)) + 1;
+
+    const rowsToShow = Math.min(diffDays, maxRows);
+
+    for (let i = 0; i < rowsToShow; i++) {
+      const date = new Date(startDate);
+      date.setDate(startDate.getDate() + i);
+
+      const decision = decisions[i % decisions.length];
+
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td>${name}</td>
+        <td>${formatDate(date)}</td>
+        <td class="decision">${decision}</td>
+      `;
+
+      tableBody.prepend(tr); // новые сверху, как на GradCafe
+    }
+  </script>
+</body>
+</html>
